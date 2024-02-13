@@ -115,7 +115,7 @@ def doesResultExistYet(race, racer):
     else:
         return None
 
-            
+
 # print(Racer.objects.filter(firstname="Timmy")[0].id)
 
 # Racer.objects.all().delete()
