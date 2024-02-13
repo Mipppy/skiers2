@@ -42,18 +42,19 @@ def search(request):
         if q[0] == "god":
             return HttpResponseRedirect("racers/7514")
 
-        if len(q) > 1:
-            try:
-                lastname = q[1].upper()
-                firstname = q[0].lower().capitalize()
-                racer = Racer.objects.filter(lastname__contains=lastname, firstname__contains=firstname)
-                if racer:
-                    return HttpResponseRedirect("racers/"+str(racer[0].id))
-
-            except Exception as e:
-                None
-
+        hit = DirectRacerHit(q)
+        if hit:
+            return HttpResponseRedirect(hit)
         else:
             bq.append(" ")
-            all_matching_racers = Racer.objects.filter(firstname__contains=q[0].lower().capitalize(), lastname__contains=bq[1].upper())
-            return render(request, "skiers/search.html", {"racers": all_matching_racers})
+            all_matching_racers_first = Racer.objects.filter(firstname__icontains=bq[0])
+            all_matching_racers_last = Racer.objects.filter(lastname__icontains=bq[0])
+            all_matching_racers = list(set(list(all_matching_racers_last)+list(all_matching_racers_first)))
+            for racer in all_matching_racers:
+                racer.team = " ".join(str(racer.team).split(" ")[1:])
+            teams = []
+            for racer2 in Racer.objects.filter(team__icontains=bq[0]):
+                teams.append(" ".join(str(racer2.team).split(" ")[1:]))
+            teams = list(set(teams))
+            
+            return render(request, "skiers/search.html", {"racers": all_matching_racers, "teams":teams})

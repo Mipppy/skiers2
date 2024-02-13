@@ -11,7 +11,7 @@
                 <div class="bg-light">
                     <ul style="list-style-type: none;" id="myList">
                     {% for team in teams %}
-                        <h3>{{team}}</h3>
+                        <li><h5 class="d-inline-block mr-3"><a href="/teams/{{team}}">{{team}}</a></h5></li>
                         <hr>
                         {% endfor %}
                     </ul>    

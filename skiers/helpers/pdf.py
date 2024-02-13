@@ -113,6 +113,17 @@ def doesResultExistYet(race, racer):
     else:
         return None
 
+def DirectRacerHit(q):
+    try:
+        lastname = q[1].upper()
+        firstname = q[0].lower().capitalize()
+        racer = Racer.objects.filter(lastname__contains=lastname, firstname__contains=firstname)
+        if racer:
+            return "racers/"+str(racer[0].id)
+
+    except Exception as e:
+        return None
+
 
 # print(Racer.objects.filter(firstname="Timmy")[0].id)
 
