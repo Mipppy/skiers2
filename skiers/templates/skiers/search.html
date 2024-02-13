@@ -1,0 +1,33 @@
+{% extends "skiers/layout.html" %}
+
+{% block title %} Search Results {% endblock %}
+
+{% block body %}
+    <br>
+    <div class="container mt-4 col-11">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <h3 class="text-decoration-underline">Teams</h3>
+                <div class="bg-light">
+                    <ul style="list-style-type: none;" id="myList">
+                    {% for team in teams %}
+                        <h3>{{team}}</h3>
+                        <hr>
+                        {% endfor %}
+                    </ul>    
+                </div>
+            </div>
+            <div class="col-12">
+                <h3 class="text-decoration-underline">Racers</h3>
+                <div class="bg-light">
+                    <ul style="list-style-type: none;" id="myList">
+                    {% for racer in racers %}
+                        <li><h6 class="d-inline-block mr-3"><a href="racers/{{racer.id}}">{{racer.lastname}} {{racer.firstname}}</a></h6> <p class="d-inline-block">of {{racer.team}}</p></li>
+                        <hr>
+                        {% endfor %}
+                    </ul>    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -71,8 +71,6 @@ def parseRacerData(data):
                 try:
                     parsed_race = str(race[0]).split(" ")
                     parsed_race = [item for item in parsed_race if item != ""]
-                    print(parsed_race)
-
                     time_pattern = re.compile(r'^:(\d{2}:\d{2}.\d)$')
                     score_pattern = re.compile(r'\d+(\.\d+)?')
                     if parsed_race[0].isdigit() and parsed_race[1].isdigit() and time_pattern.match(parsed_race[2]) and score_pattern.match(parsed_race[3]) and parsed_race[4].isalpha():

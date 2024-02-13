@@ -31,8 +31,8 @@
                     <a class="nav-link text-danger m-0" href="/rescan" onclick="alert('Expect Slowdowns\nDo not reload/close site until loading has stopped, or scanning will not occur')">Rescan Data</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search Racers, Races, ETC" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" action="/search" method="post">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Racers, Races, ETC" aria-label="Search" name="query">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>

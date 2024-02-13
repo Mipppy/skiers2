@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from .helpers.pdf import * 
 from .models import *
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 
 def index(request):
@@ -32,3 +33,27 @@ def tracked_racers(request):
     for race in racer:
         race.team = " ".join(str(race.team).split(" ")[1:])
     return render(request, "skiers/tracked_racers.html", {"racers": racer})
+
+@csrf_exempt
+def search(request):
+    if request.method == "POST":
+        q = request.POST["query"].split(" ")
+        bq = q
+        if q[0] == "god":
+            return HttpResponseRedirect("racers/7514")
+
+        if len(q) > 1:
+            try:
+                lastname = q[1].upper()
+                firstname = q[0].lower().capitalize()
+                racer = Racer.objects.filter(lastname__contains=lastname, firstname__contains=firstname)
+                if racer:
+                    return HttpResponseRedirect("racers/"+str(racer[0].id))
+
+            except Exception as e:
+                None
+
+        else:
+            bq.append(" ")
+            all_matching_racers = Racer.objects.filter(firstname__contains=q[0].lower().capitalize(), lastname__contains=bq[1].upper())
+            return render(request, "skiers/search.html", {"racers": all_matching_racers})
