@@ -1,0 +1,25 @@
+{% extends "skiers/layout.html" %}
+
+{% block title %} Tracked Racers {% endblock %}
+
+{% block body %}
+
+<br>
+<div class="container mt-4 col-11">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="form-group d-inline-block col-12">
+                <input onload="var ul = document.getElementById('myList');var items = ul.getElementsByTagName('li');var items2 = ul.getElementsByTagName('hr');var searchQuery = this.value.toLowerCase();for (var i = 0; i < items.length; i++) {var item = items[i];var item2 = items2[i]; var text = item.textContent.toLowerCase();if (text.includes(searchQuery)) {item.style.display = 'block'; item2.style.display='block'} else {item.style.display = 'none'; item2.style.display='none'}};" onkeyup="var ul = document.getElementById('myList');var items = ul.getElementsByTagName('li');var items2 = ul.getElementsByTagName('hr');var searchQuery = this.value.toLowerCase();for (var i = 0; i < items.length; i++) {var item = items[i];var item2 = items2[i]; var text = item.textContent.toLowerCase();if (text.includes(searchQuery)) {item.style.display = 'block'; item2.style.display='block'} else {item.style.display = 'none'; item2.style.display='none'}};" type="text" class="form-control d-inline-block col-12" id="search" placeholder="Search for racer">
+            </div>
+            <div class="bg-light">
+                <ul style="list-style-type: none;" id="myList">
+                {% for racer in racers %}
+                    <li><h6 class="d-inline-block mr-3"><a href="racers/{{racer.id}}">{{racer.lastname}} {{racer.firstname}}</a></h6> <p class="d-inline-block">of {{racer.team}}</p></li>
+                    <hr>
+                    {% endfor %}
+                </ul>    
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "skiers/layout.html" %}
+{% load static %}
+{% block title %} Home {% endblock %}
+
+{% block body %}
+<br>
+<div class="container col-10">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="border border-dark p-2 bg-secondary text-center">
+                <h5 class="thanks-tully">This website provides information and analysis about Section 3 and other New
+                    York State Nordic Skiers</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4 col-11">
+    <div class="row justify-content-center">
+        <div class="col-md-4 col-5">
+            <div class="bg-light p-3">
+                <h3>Recent Races</h3>
+                <ul>
+                    {% for race in races %}
+                    <li><a href="{{race.site}}" target="_blank">{% if not race.title %}Could not get race title <img src="{% static 'skiers/warning.svg' %}" width="24px" height="24px" draggable="false" aria-label="Program could not get race title.  This is likely due to the race having multiple result listings on UnderdogTiming" title="Program could not get race title.  &#010; This is likely due to the race having multiple result listings on UnderdogTiming">{% else%} {{race.title}}
+                            {% endif %}</a></li>
+                    {%endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6 col-6">
+            <div class="bg-light p-3">
+                <h3>Recent Winners</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        {% for race in racers %}
+                        {% if forloop.counter <= 10 %} <div class="border border-dark">
+                            <h6><a href="/racers/{{race.racer.id}}">{{ race.racer.lastname }} {{ race.racer.firstname}}</a></h6>
+                            <p class="p-0">Time: <b>{{race.time}}</b> &nbsp; &nbsp; Team: <b>{{race.racer.team}}</b></p>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                    {% for race in racers %}
+                    {% if forloop.counter > 10 %}
+                    <div class="border border-dark">
+                        <h6><a href="/racers/{{race.racer.id}}">{{ race.racer.lastname }} {{ race.racer.firstname }}</a>
+                        </h6>
+                        <p class="p-0">Time: <b>{{race.time}}</b> &nbsp; &nbsp; Team: <b>{{race.racer.team}}</b></p>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+<br>
+<div class="row justify-content-center">
+    <div class="col-md-10 col-10">
+        <div class="bg-light p-3">
+            <h3>Recent News</h3>
+            <p>NA</p>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row justify-content-center">
+    <div class="col-md-10 col-10">
+        <div class="bg-light p-3">
+            <h3>About</h3>
+            <p>Timmy's Skiers is a site made by Timothy Portuese of the Queensbury Nordic team. All data is pulled
+                directly from <a href="https://underdogtiming.com" target="_blank">Underdog Timing</a> and was inspired by <a
+                    href="http://tullyrunners.com" target="_blank">Tully Runners</a>. The purpose of the site is to allow easy access to Nordic
+                Results and racer data. For other developers, all the source code can be found on the Github (<a
+                    href="https://github.com/Mipppy/skiers" target="_blank">Here</a>) </p>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
