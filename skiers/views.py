@@ -55,6 +55,13 @@ def search(request):
             teams = []
             for racer2 in Racer.objects.filter(team__icontains=bq[0]):
                 teams.append(" ".join(str(racer2.team).split(" ")[1:]))
-            teams = list(set(teams))
-            
+            teams = list(set(teams))            
             return render(request, "skiers/search.html", {"racers": all_matching_racers, "teams":teams})
+        
+def teams(request, name):
+    racers = []
+    for racer2 in Racer.objects.filter(team__icontains=name):
+        racer2.team = " ".join(str(racer2.team).split(" ")[1:])
+        racers.append(racer2)
+    racers = list(set(racers)) 
+    return render(request, "skiers/team.html", {"racers": racers})
