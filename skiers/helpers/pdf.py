@@ -75,7 +75,6 @@ def parseRacerData(data):
                     score_pattern = re.compile(r'\d+(\.\d+)?')
                     if parsed_race[0].isdigit() and parsed_race[1].isdigit() and time_pattern.match(parsed_race[2]) and score_pattern.match(parsed_race[3]) and parsed_race[4].isalpha():
                         parsed_race = [parsed_race, race[1]]
-                        print(parsed_race)
                         addRaceToDatabase(parsed_race)
                 except Exception as e:
                     continue
@@ -104,14 +103,20 @@ def racerExistsAlready(race):
     else:
         return racerQuery
 def doesResultExistYet(race, racer):
-    objects = Result.objects.filter(racer=racer[0], time=race[0][2], bib=int(race[0][0]), place=int(race[0][1]), score=float(race[0][3]), racename=race[1])
+    truescore = additionalScoreShenaggings(race)
+    print(truescore)
+    objects = Result.objects.filter(racer=racer[0], time=race[0][2], bib=int(race[0][0]), place=int(race[0][1]), score=truescore, racename=race[1])
     if not objects:
-        print(race)
-        racer_result = Result(racer=racer[0], time=race[0][2], bib=int(race[0][0]), place=int(race[0][1]), score=float(race[0][3]), racename=race[1])
+        racer_result = Result(racer=racer[0], time=race[0][2], bib=int(race[0][0]), place=int(race[0][1]), score=truescore, racename=race[1])
         racer_result.save()
         return racer_result
     else:
         return None
+
+def additionalScoreShenaggings(race):
+    scores = (24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 1)
+    score = scores[int(race[0][1]) - 1] if 1 <= int(race[0][1]) <= len(scores) else 0
+    return score
 
 def DirectRacerHit(q):
     try:
@@ -119,13 +124,25 @@ def DirectRacerHit(q):
         firstname = q[0].lower().capitalize()
         racer = Racer.objects.filter(lastname__contains=lastname, firstname__contains=firstname)
         if racer:
-            return "racers/"+str(racer[0].id)
+            return "/racers/"+str(racer[0].id)
 
     except Exception as e:
         return None
 
+def compareScore(score, racer):
+    masterList = [{"racer": racer, "score":score}]
+    for racer2 in Racer.objects.all():
+        masterList.append({"racer": racer2, "score": calcTotalRacerScore(racer2)})
+    sortedMasterList = sorted(masterList, key=lambda x: x["score"], reverse=True)
+    original_racer_index = next((i for i, d in enumerate(sortedMasterList) if d["racer"] == racer), None)+1
+    return original_racer_index
+    
+def calcTotalRacerScore(racer):
+    total = 0
+    for result in Result.objects.filter(racer=racer):
+        total = total + result.score
+    return total
 
-# print(Racer.objects.filter(firstname="Timmy")[0].id)
 
 # Racer.objects.all().delete()
 # Result.objects.all().delete()

@@ -9,7 +9,8 @@
         <div class="col-12">
             <div class="bg-light p-3">
                 <h1 class="d-inline-block mr-3">{{racer.firstname}} {{racer.lastname}}</h1>
-                <h4 class="d-inline-block">Of: {{racer.team}}</h4>
+                <h4 class="d-inline-block">Of: <a href="/teams/{{racer.team}}">{{racer.team}}</a></h4>
+                <h6>Total Score: <b>{{totalScore}}</b></h6>
             </div>
         </div>
     </div>

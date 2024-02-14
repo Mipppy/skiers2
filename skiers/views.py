@@ -26,7 +26,10 @@ def racer(request, id):
     results = Result.objects.filter(racer=racer)
     racer.team = " ".join(str(racer.team).split(" ")[1:])
     racer.lastname = racer.lastname.lower().capitalize()[:-1]
-    return render(request, "skiers/racer.html", {"racer": racer, "results": results})
+    totalScore = calcTotalRacerScore(racer)
+    scorePos = compareScore(totalScore, racer)
+    print(scorePos)
+    return render(request, "skiers/racer.html", {"racer": racer, "results": results, "totalScore": totalScore})
 
 def tracked_racers(request):
     racer = Racer.objects.all()
@@ -41,7 +44,6 @@ def search(request):
         bq = q
         if q[0] == "god":
             return HttpResponseRedirect("racers/7514")
-
         hit = DirectRacerHit(q)
         if hit:
             return HttpResponseRedirect(hit)
@@ -55,7 +57,7 @@ def search(request):
             teams = []
             for racer2 in Racer.objects.filter(team__icontains=bq[0]):
                 teams.append(" ".join(str(racer2.team).split(" ")[1:]))
-            teams = list(set(teams))            
+            teams = sorted(list(set(teams)))         
             return render(request, "skiers/search.html", {"racers": all_matching_racers, "teams":teams})
         
 def teams(request, name):
@@ -63,5 +65,13 @@ def teams(request, name):
     for racer2 in Racer.objects.filter(team__icontains=name):
         racer2.team = " ".join(str(racer2.team).split(" ")[1:])
         racers.append(racer2)
-    racers = list(set(racers)) 
-    return render(request, "skiers/team.html", {"racers": racers})
+    racers = list(set(racers))
+    return render(request, "skiers/team.html", {"racers": racers, "team": racers[0].team})
+
+def all_teams(request):
+    teams = []
+    for racer2 in Racer.objects.all():
+        racer2.team = " ".join(str(racer2.team).split(" ")[1:])
+        teams.append(racer2.team)
+    teams = sorted(list(set(teams))) 
+    return render(request, "skiers/all_team.html", {"teams": teams})
