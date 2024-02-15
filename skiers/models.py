@@ -16,3 +16,4 @@ class Result(models.Model):
     place = models.IntegerField()
     score = models.FloatField()
     racename = models.CharField(max_length=200)
+    level = models.CharField(max_length=100)

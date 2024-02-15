@@ -10,18 +10,25 @@
                 <h3 class="text-decoration-underline">Teams</h3>
                 <div class="bg-light">
                     <ul style="list-style-type: none;" id="myList">
-                    {% for team in teams %}
+                    {% if not teams%}
+                    <li><h5>No teams found</h5></li>
+                        {%endif%}
+                        {% for team in teams %}
                         <li><h5 class="d-inline-block mr-3"><a href="/teams/{{team}}">{{team}}</a></h5></li>
                         <hr>
                         {% endfor %}
                     </ul>    
                 </div>
             </div>
+            <hr>
             <div class="col-12">
                 <h3 class="text-decoration-underline">Racers</h3>
                 <div class="bg-light">
                     <ul style="list-style-type: none;" id="myList">
-                    {% for racer in racers %}
+                    {% if not racers %}
+                        <li><h6>No racers found</h6></li>
+                        {%endif%}
+                        {% for racer in racers %}
                         <li><h6 class="d-inline-block mr-3"><a href="racers/{{racer.id}}">{{racer.lastname}} {{racer.firstname}}</a></h6> <p class="d-inline-block">of {{racer.team}}</p></li>
                         <hr>
                         {% endfor %}

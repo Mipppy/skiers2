@@ -16,7 +16,7 @@
     <br>
     <div class="row justify-content-center">
         <div class="col-10">
-            <div class="bg-danger text-center">
+            <div class="bg-danger text-center p-1">
                 <h5 style="color:darkred; text-decoration: underline;"><img src="{% static 'skiers/warning.svg' %}" width="24px" height="24px" draggable="false"><b>DISCLAIMER</b><img src="{% static 'skiers/warning.svg' %}" width="24px" height="24px" draggable="false"></h5>
                 <hr style="border: 1.5px groove darkred; width:80%">
                 <p style="color: darkred;">This site is 99% automated.  There may be missing race results or inaccurate data until I manually go in and fix it (Which might be a while).  All data is pulled from UnderdogTiming, so duplicate races and other errors are most likely a UnderdogTiming error, not this site's error.  Missing races are due to UnderdogTiming not listing the race as Nordic, so my program is not able to get it, hence manually intervention.</p>
@@ -39,27 +39,29 @@
         </div>
         <div class="col-md-6 col-6">
             <div class="bg-light p-3">
-                <h3>Recent Winners</h3>
+                <h3 style="text-align:center;">Best skiers</h3>
                 <div class="row">
                     <div class="col-md-6">
-                        {% for race in racers %}
-                        {% if forloop.counter <= 10 %} <div class="border border-dark">
-                            <h6><a href="/racers/{{race.racer.id}}">{{ race.racer.lastname }} {{ race.racer.firstname}}</a></h6>
-                            <p class="p-0">Time: <b>{{race.time}}</b> &nbsp; &nbsp; Team: <b>{{race.racer.team}}</b></p>
+                        <h5 style="text-align:center">Varsity Boys</h5>
+                        {% for race in b %}
+                     <div class="border border-dark">
+                         <h3 class="d-inline-block" style="font-family: 'Protest Strike', sans-serif;">{% if forloop.counter == 1 %} 🥇 {%elif forloop.counter == 2%} 🥈 {% elif forloop.counter == 3%} 🥉 {% else %} &nbsp; {{forloop.counter}}. {%endif%}</h3>
+
+                            <h6 class="d-inline-block" ><a href="/racers/{{race.racer.id}}">{{ race.racer.lastname }} {{ race.racer.firstname}}</a></h6>
+                            <p class="p-0">Team: <b>{{race.racer.team}}</b></p>
                     </div>
-                    {% endif %}
                     {% endfor %}
                 </div>
 
                 <div class="col-md-6">
-                    {% for race in racers %}
-                    {% if forloop.counter > 10 %}
+                    <h5 style="text-align:center;">Varsity Girls</h5>
+                    {% for race in g %}
                     <div class="border border-dark">
-                        <h6><a href="/racers/{{race.racer.id}}">{{ race.racer.lastname }} {{ race.racer.firstname }}</a>
+                         <h3 class="d-inline-block" style="font-family: 'Protest Strike', sans-serif;">{% if forloop.counter == 1 %} 🥇 {%elif forloop.counter == 2%} 🥈 {% elif forloop.counter == 3%} 🥉 {% else %} &nbsp; {{forloop.counter}}. {%endif%}</h3>
+                        <h6 class="d-inline-block"><a href="/racers/{{race.racer.id}}">{{ race.racer.lastname }} {{ race.racer.firstname }}</a>
                         </h6>
-                        <p class="p-0">Time: <b>{{race.time}}</b> &nbsp; &nbsp; Team: <b>{{race.racer.team}}</b></p>
+                        <p class="p-0">Team: <b>{{race.racer.team}}</b></p>
                     </div>
-                    {% endif %}
                     {% endfor %}
                 </div>
                 <h5 class="mt-2 ml-3"><a href="/tracked_racers">All racers</a></h5>   

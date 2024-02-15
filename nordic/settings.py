@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-y&k#q$&z1@#ju6o9@ht9^fkp3vc4!44xe@k1pp$tr=385m7%j5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['d3932993-79ad-404c-9f93-9c5d6d730f35-00-3gv30d77yj3af.worf.replit.dev','localhost','127.0.0.1','.vercel.app']
+ALLOWED_HOSTS = ['d3932993-79ad-404c-9f93-9c5d6d730f35-00-3gv30d77yj3af.worf.replit.dev','localhost','127.0.0.1','.vercel.app','92796dd3-eed2-48ba-8980-7159ffa93de7-00-250hzjmxyhga5.spock.replit.dev']
 
 
 # Application definition
