@@ -61,8 +61,6 @@ def search(request):
   if request.method == "POST":
     q = request.POST["query"].split(" ")
     bq = q
-    if q[0] == "god":
-      return HttpResponseRedirect("/racers/8384")
     hit = DirectRacerHit(q)
     if hit:
       return HttpResponseRedirect(hit)
